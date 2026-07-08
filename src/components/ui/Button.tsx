@@ -1,10 +1,5 @@
-/**
- * UI primitives — stateless, reusable building blocks (Button, Input, Modal).
- * Lives in components/ui/ (not components/common/) following shadcn/Radix convention.
- * No business logic, no API calls — only presentation and accessibility.
- */
 import { ButtonHTMLAttributes } from "react";
-import { cn } from "@/utils/cn";
+import { cn } from "../../utils/cn";
 
 type ButtonVariant = "primary" | "outline" | "ghost";
 

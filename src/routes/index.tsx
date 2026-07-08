@@ -1,24 +1,19 @@
-/**
- * Route definitions — separated from App.tsx so routing stays readable as the
- * app grows. Lazy-loaded pages keep the initial bundle small (code-splitting).
- */
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import { RootLayout } from "@/layouts/RootLayout";
-import { AuthLayout } from "@/layouts/AuthLayout";
-import { ProtectedRoute } from "@/routes/ProtectedRoute";
-import { ROUTES } from "@/constants/routes";
-import { Spinner } from "@/components/ui/Spinner";
+import { RootLayout } from "../layouts/RootLayout";
+import { Spinner } from "../components/ui/Spinner";
+import { AuthLayout } from "../layouts/AuthLayout";
 
-const HomePage = lazy(() => import("@/pages/HomePage"));
-const LoginPage = lazy(() => import("@/pages/LoginPage"));
-const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
-const NotFoundPage = lazy(() => import("@/pages/NotFoundPage"));
+const HomePage = lazy(() => import("../pages/HomePage"));
+const LoginPage = lazy(() => import("../pages/LoginPage"));
+const ProductPage = lazy(() => import("../pages/ProductPage"));
 
 function PageLoader() {
   return (
-    <div className="flex min-h-[50vh] items-center justify-center">
-      <Spinner />
+    <div className="flex items-center">
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <Spinner />
+      </div>
     </div>
   );
 }
@@ -35,40 +30,24 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
       },
+    ],
+  },
+  {
+    element: <RootLayout />,
+    children: [
       {
-        element: <AuthLayout />,
-        children: [
-          {
-            path: ROUTES.LOGIN,
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                <LoginPage />
-              </Suspense>
-            ),
-          },
-        ],
-      },
+        path: "/products",
+        element: <ProductPage />,
+      }
+    ],
+  },
+  {
+    element: <AuthLayout />,
+    children: [
       {
-        element: <ProtectedRoute />,
-        children: [
-          {
-            path: ROUTES.DASHBOARD,
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                <DashboardPage />
-              </Suspense>
-            ),
-          },
-        ],
-      },
-      {
-        path: "*",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <NotFoundPage />
-          </Suspense>
-        ),
-      },
+        path: "/login",
+        element: <LoginPage />,
+      }
     ],
   },
 ]);

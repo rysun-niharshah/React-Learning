@@ -1,60 +1,73 @@
-# React + Vite + Tailwind — Standard Folder Structure
+# React + TypeScript + Vite
 
-Industry-standard React project scaffold with inline comments explaining **why** each folder exists.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Quick start
+Currently, two official plugins are available:
 
-```bash
-cd react-vite-tailwind
-npm install
-npm run dev
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-## Folder map
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-react-vite-tailwind/
-├── public/                 # Static files copied as-is (favicon, robots.txt)
-├── src/
-│   ├── api/                # HTTP client + endpoint constants
-│   ├── assets/             # Images/fonts imported by components (bundled)
-│   ├── components/
-│   │   ├── ui/             # Primitive UI (Button, Input, Modal)
-│   │   ├── layout/         # Header, Sidebar, Footer
-│   │   └── features/       # Domain-specific components (orders/, dashboard/)
-│   ├── config/             # Env-driven app configuration
-│   ├── constants/          # Enums, route paths, magic-string replacements
-│   ├── context/            # React Context providers (auth, theme)
-│   ├── hooks/              # Custom hooks (useAuth, useDashboardStats)
-│   ├── layouts/            # Route-level layout wrappers (RootLayout, AuthLayout)
-│   ├── lib/                # Third-party adapters (query client, i18n)
-│   ├── pages/              # One component per route
-│   ├── routes/             # Router config + guards (ProtectedRoute)
-│   ├── services/           # Domain API/business logic (authService, orderService)
-│   ├── store/              # Redux/Zustand (when Context isn't enough)
-│   ├── styles/             # Global CSS + Tailwind directives
-│   ├── types/              # Shared TypeScript interfaces
-│   ├── utils/              # Pure helpers (formatters, cn)
-│   ├── App.tsx             # Root component
-│   └── main.tsx            # Entry point
-├── .env                    # VITE_* environment variables
-├── index.html              # HTML shell
-├── tailwind.config.js      # Tailwind theme + content paths
-├── postcss.config.js       # Tailwind + Autoprefixer pipeline
-├── vite.config.ts          # Vite build config + @ alias
-└── tsconfig.json           # TypeScript + path aliases
-```
-
-## Key conventions
-
-| Layer | Responsibility |
-|-------|----------------|
-| **pages/** | Route screens — compose hooks + components |
-| **components/ui/** | Stateless primitives, no API calls |
-| **components/features/** | Domain UI, receives data via props |
-| **hooks/** | Stateful logic, calls services |
-| **services/** | API calls, returns typed data |
-| **api/** | HTTP infrastructure only |
-| **layouts/** vs **components/layout/** | Wrappers vs visual chrome |
-
-Every source file includes a header comment explaining its placement in this structure.

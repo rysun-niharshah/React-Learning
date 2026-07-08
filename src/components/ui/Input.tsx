@@ -3,7 +3,7 @@
  * depending on complexity. Simple inputs stay in ui/; multi-field forms go in forms/.
  */
 import { InputHTMLAttributes } from "react";
-import { cn } from "@/utils/cn";
+import { cn } from "../../utils/cn";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
