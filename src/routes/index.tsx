@@ -7,6 +7,7 @@ import { AuthLayout } from "../layouts/AuthLayout";
 const HomePage = lazy(() => import("../pages/HomePage"));
 const LoginPage = lazy(() => import("../pages/LoginPage"));
 const ProductPage = lazy(() => import("../pages/ProductPage"));
+const UseState = lazy(() => import("../pages/UseState"));
 
 function PageLoader() {
   return (
@@ -38,6 +39,15 @@ export const router = createBrowserRouter([
       {
         path: "/products",
         element: <ProductPage />,
+      }
+    ],
+  },
+  {
+    element: <RootLayout />,
+    children: [
+      {
+        path: "/use-state",
+        element: <UseState />,
       }
     ],
   },
