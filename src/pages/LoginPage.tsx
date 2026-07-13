@@ -13,6 +13,7 @@ export default function LoginPage() {
 
   function handleLogin() {
     alert(`Logging in with email: ${email} and password: ${password}`);
+    console.log("Submitted");
   }
 
   return (

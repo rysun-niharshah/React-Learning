@@ -8,6 +8,7 @@ const HomePage = lazy(() => import("../pages/HomePage"));
 const LoginPage = lazy(() => import("../pages/LoginPage"));
 const ProductPage = lazy(() => import("../pages/ProductPage"));
 const UseState = lazy(() => import("../pages/UseState"));
+const Events = lazy(() => import("../pages/Events"));
 
 function PageLoader() {
   return (
@@ -48,6 +49,15 @@ export const router = createBrowserRouter([
       {
         path: "/use-state",
         element: <UseState />,
+      }
+    ],
+  },
+  {
+    element: <RootLayout />,
+    children: [
+      {
+        path: "/events",
+        element: <Events />,
       }
     ],
   },
